@@ -1,3 +1,6 @@
+//Camada responsável por representar as entidades
+//estruturas de dados utilizadas na aplicação
+
 export default class Usuario {
   id: number;
   nome: string;
