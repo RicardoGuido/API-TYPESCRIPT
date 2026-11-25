@@ -1,9 +1,28 @@
 // Responsável por receber as requisições HTTP
 
-import usuarioRepository from "../repositories/usuarioRepository.js";
 import { Request, Response, NextFunction } from "express";
+import usuarioRepository from "../repositories/usuarioRepository.js";
+import Usuario from "../models/usuario.js";
 
-function getAllUsuarios(req: Request, res: Response, next: NextFunction) {
-  const usuarios = usuarioRepository.getAllUsuarios();
+async function getUsuario(req: Request, res: Response, next: NextFunction) {
+  const id = parseInt(req.params.id as string);
+  const usuario = await usuarioRepository.getUsuarios(id);
+  if (usuario) {
+    res.json(usuario);
+  } else {
+    res.status(404).json({ message: "Usuário não encontrado" });
+  }
+}
+
+async function getAllUsuarios(req: Request, res: Response, next: NextFunction) {
+  const usuarios = await usuarioRepository.getAllUsuarios();
   res.json(usuarios);
 }
+
+async function postUsuario(req: Request, res: Response, next: NextFunction) {
+  const usuario = req.body as Usuario;
+  const resultado = await usuarioRepository.addUsuario(usuario);
+  res.status(201).json(resultado);
+}
+
+export default { getAllUsuarios, getUsuario, postUsuario };

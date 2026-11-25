@@ -4,6 +4,9 @@ import express from "express";
 import usuarioController from "../controllers/usuarioController.js";
 
 const router = express.Router();
-router.get("/usuarios", usuarioController.getAllUsuarios);
+router.get("/:id", usuarioController.getUsuario);
+router.get("/", usuarioController.getAllUsuarios);
+
+router.post("/", usuarioController.postUsuario);
 
 export default router;
