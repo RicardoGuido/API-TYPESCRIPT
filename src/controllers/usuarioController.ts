@@ -25,4 +25,28 @@ async function postUsuario(req: Request, res: Response, next: NextFunction) {
   res.status(201).json(resultado);
 }
 
-export default { getAllUsuarios, getUsuario, postUsuario };
+async function deleteUsuario(req: Request, res: Response, next: NextFunction) {
+  const id = parseInt(req.params.id as string);
+  const resultado = await usuarioRepository.deleteUsuario(id);
+  resultado ? res.sendStatus(204) : res.sendStatus(404);
+}
+
+async function updateUsuario(req: Request, res: Response, next: NextFunction) {
+  const id = parseInt(req.params.id as string);
+  const dadosUsuario = req.body as Usuario;
+  const resultado = await usuarioRepository.updateUsuario(id, dadosUsuario);
+  res.json(resultado);
+}
+
+// o operador ternário faz a mesma coisa que:
+// if(resultado){
+// res.sendStatus(204);
+// else {res.sendStatus(404)}
+
+export default {
+  getAllUsuarios,
+  getUsuario,
+  postUsuario,
+  deleteUsuario,
+  updateUsuario,
+};
